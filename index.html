@@ -429,7 +429,7 @@ const R=(s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.im
     ['chalet','Шале','«Альпина»','214 м²','2','4','14 сот.','камень, брус','от 19,8 млн ₽'],
   ];
   document.getElementById('houses-grid').innerHTML=H.map(h=>`<article class="house" data-k="${h[0]}">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div><span class="mono">${h[1]}</span><h3>${h[2]}</h3></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px"><div><span class="mono">${h[1]}</span><h3>${h[2]}</h3></div>
     <div class="views">${Object.keys(V[h[0]]).map((v,i)=>`<button class="${i?'':'on'}" data-v="${v}">${v}</button>`).join('')}</div></div>
     <div class="draw"><svg viewBox="0 0 400 300" role="img" aria-label="Чертёж дома ${h[2]}">${V[h[0]]['Фасад']}</svg></div>
     <div class="spec"><div>Площадь</div><div>${h[3]}</div><div>Этажей</div><div>${h[4]}</div><div>Спален</div><div>${h[5]}</div><div>Участок</div><div>${h[6]}</div><div>Материалы</div><div>${h[7]}</div></div>
