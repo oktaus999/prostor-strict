@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Простор — девелопер посёлков городского типа</title>
+<meta name="description" content="«Простор» — девелопер посёлков городского типа: мастер-план, инженерные сети, социальная инфраструктура и дома под ключ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+/* Строгая сетка 12 колонок, монохром + один акцент (глубокий зелёный), чертёжная графика */
+:root{
+  --bg:#ffffff; --bg2:#f4f5f3; --ink:#121614; --ink2:#5b625e; --ink3:#8c928e;
+  --line:#dde0dc; --line2:#c4c8c4; --acc:#1d4d3c; --acc2:#e8efeb; --warn:#a8661c;
+  --sans:"Golos Text", "Segoe UI", Arial, sans-serif; --mono:"IBM Plex Mono", Consolas, monospace;
+  --w:1240px; --pad:clamp(16px,4vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{max-width:var(--w);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+h1,h2,h3{font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+h2{font-size:clamp(28px,3.4vw,44px);line-height:1.1}
+h3{font-size:20px;line-height:1.25;letter-spacing:-.01em}
+.lead{font-size:18px;color:var(--ink2);max-width:600px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 24px;background:var(--acc);color:#fff;font:600 15px var(--sans);border:1px solid var(--acc);border-radius:2px;cursor:pointer;transition:background .2s}
+.btn:hover{background:#163c2f}
+.btn.line{background:transparent;color:var(--ink);border-color:var(--line2)}
+.btn.line:hover{border-color:var(--ink)}
+section{padding-block:clamp(64px,9vw,112px);border-top:1px solid var(--line)}
+.head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-bottom:48px;align-items:end}
+.head .t{grid-column:span 7}.head .t .mono{display:block;margin-bottom:16px}
+.head p{grid-column:9 / span 4;color:var(--ink2)}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:32px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.14em;font-size:15px}
+.logo i{width:28px;height:28px;background:var(--acc);display:grid;place-items:center}
+.logo i svg{width:16px;height:16px}
+nav{display:flex;gap:24px;font-size:14px;color:var(--ink2);margin-left:auto;white-space:nowrap}
+nav a:hover{color:var(--ink)}
+.tel{font-weight:600;font-size:15px;white-space:nowrap}
+.bar .btn{height:40px;padding:0 18px;font-size:14px}
+
+/* hero */
+.hero{padding-block:clamp(48px,7vw,88px) 0;border-top:0}
+.hero-grid{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero h1{font-size:clamp(36px,4.6vw,62px);line-height:1.04;margin:20px 0 24px}
+.hero h1 span{color:var(--acc)}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.plan{border:1px solid var(--line);background:var(--bg2);position:relative;aspect-ratio:7/5;max-width:100%}
+.plan svg{position:absolute;inset:0;width:100%;height:100%}
+.plan .cap{position:absolute;left:16px;top:14px}
+.legend{position:absolute;left:16px;bottom:14px;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink2)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend b{width:12px;height:12px;display:inline-block}
+.figs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(48px,6vw,80px);border-top:1px solid var(--ink)}
+.fig{padding:24px 24px 32px 0}
+.fig+.fig{padding-left:24px;border-left:1px solid var(--line)}
+.fig b{display:block;font-size:clamp(30px,3.4vw,46px);font-weight:500;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.fig b small{font-size:.45em;letter-spacing:0;margin-left:4px;color:var(--ink2)}
+.fig span{display:block;margin-top:10px;font-size:14px;color:var(--ink2)}
+
+/* about */
+.about{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.about .txt{grid-column:span 6;display:grid;gap:18px;color:var(--ink2);font-size:17px}
+.about .txt p:first-child{color:var(--ink);font-size:21px;line-height:1.45}
+.about dl{grid-column:8 / span 5;border-top:1px solid var(--ink)}
+.about dl div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.about dt{color:var(--ink2)}.about dd{font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+
+/* projects table */
+.filters{display:flex;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%;margin-bottom:24px}
+.filters button{border:0;background:none;font:500 14px var(--sans);padding:10px 18px;color:var(--ink2);cursor:pointer}
+.filters button+button{border-left:1px solid var(--line2)}
+.filters button.on{background:var(--ink);color:#fff}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:820px;font-size:15px}
+th{text-align:left;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);padding:12px 16px 12px 0;border-bottom:1px solid var(--ink)}
+td{padding:20px 16px 20px 0;border-bottom:1px solid var(--line);vertical-align:middle;font-variant-numeric:tabular-nums}
+td:first-child b{display:block;font-size:17px;font-weight:600}
+td:first-child span{font-size:13px;color:var(--ink2)}
+tr[hidden]{display:none}
+.st{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;padding:4px 10px;border:1px solid var(--line2);white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.st.b::before{background:var(--warn)}.st.s::before{background:#2b6cb0}
+.prog{width:120px;height:4px;background:var(--line);margin-top:6px}.prog i{display:block;height:100%;background:var(--acc)}
+td .arr{color:var(--ink3);transition:color .2s}
+tbody tr:hover .arr{color:var(--acc)}
+
+/* houses */
+.houses{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--line)}
+.house{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:28px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.views{display:flex;gap:4px}
+.views button{border:1px solid var(--line2);background:none;font:500 12px var(--sans);padding:5px 10px;color:var(--ink2);cursor:pointer}
+.views button.on{border-color:var(--ink);color:var(--ink)}
+.draw{background:var(--bg2);aspect-ratio:4/3;max-width:100%;position:relative}
+.draw svg{position:absolute;inset:0;width:100%;height:100%}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.spec div{padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink2)}
+.spec div:nth-child(even){text-align:right;color:var(--ink);font-weight:500}
+.price{display:flex;justify-content:space-between;align-items:baseline;margin-top:auto}
+.price b{font-size:22px;font-weight:600}
+
+/* infra */
+.infra{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.inf{background:var(--bg);padding:28px;display:grid;gap:10px;min-width:0}
+.inf b{font-size:34px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.inf p{font-size:14px;color:var(--ink2)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;counter-reset:s}
+.step{border-top:2px solid var(--ink);padding-top:20px;display:grid;gap:10px;align-content:start}
+.step::before{counter-increment:s;content:"Этап " counter(s);font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+.step p{font-size:14px;color:var(--ink2)}
+.step em{font-style:normal;font:500 12px var(--mono);color:var(--ink3)}
+
+/* guarantees + calc */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,72px)}
+.gar{display:grid;gap:0;border-top:1px solid var(--ink)}
+.gar > div{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:20px 0;border-bottom:1px solid var(--line)}
+.gar svg{width:24px;height:24px;color:var(--acc)}
+.gar h3{font-size:17px;margin-bottom:4px}
+.gar p{font-size:14px;color:var(--ink2)}
+.calc{background:var(--bg2);border:1px solid var(--line);padding:clamp(24px,3vw,36px);display:grid;gap:20px}
+.calc label{display:grid;gap:8px;font-size:14px;color:var(--ink2)}
+.calc .row{display:flex;justify-content:space-between}
+.calc .row b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.res{border-top:1px solid var(--line2);padding-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.res div{font-size:13px;color:var(--ink2)}
+.res b{display:block;font-size:26px;color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.calc small{font-size:12px;color:var(--ink3)}
+
+/* contacts */
+.contact{display:grid;grid-template-columns:5fr 7fr;gap:clamp(32px,5vw,72px)}
+.cl{display:grid;gap:0;border-top:1px solid var(--ink);margin-top:32px}
+.cl div{padding:16px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:15px}
+.cl span{color:var(--ink2)}
+form{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:start}
+form h3{grid-column:1/-1}
+form label{display:grid;gap:6px;font-size:13px;color:var(--ink2)}
+form .full{grid-column:1/-1}
+input,select,textarea{font:400 16px var(--sans);color:var(--ink);background:var(--bg);border:1px solid var(--line2);border-radius:2px;padding:12px 14px;outline:none;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--acc)}
+.agree{grid-column:1/-1;display:flex!important;grid-template-columns:none;gap:10px!important;align-items:flex-start}
+.agree input{width:auto;margin-top:4px;accent-color:var(--acc)}
+.ok{grid-column:1/-1;display:none;padding:24px;background:var(--acc2);border:1px solid var(--acc);color:var(--acc)}
+form.sent .ok{display:block}form.sent > :not(.ok){display:none}
+
+footer{background:var(--ink);color:#a9b0ab;font-size:13px;padding-block:48px}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+.foot b{display:block;color:#fff;font-weight:600;margin-bottom:12px;font-size:14px}
+.foot a{display:block;padding:3px 0}.foot a:hover{color:#fff}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid #2c332f;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+@media (max-width:1180px){ nav{display:none}.bar .tel{margin-left:auto} }
+@media (max-width:1060px){
+  .hero-grid,.contact,.two{grid-template-columns:1fr}
+  .head .t,.head p{grid-column:1/-1}
+  .about .txt,.about dl{grid-column:1/-1}
+  .houses{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr 1fr}
+  .foot{grid-template-columns:1fr 1fr}
+}
+@media (max-width:680px){
+  .bar .btn{display:none}
+  .figs{grid-template-columns:1fr 1fr}
+  .fig:nth-child(3){padding-left:0;border-left:0}
+  .fig:nth-child(n+3){border-top:1px solid var(--line)}
+  .houses,.infra{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  .legend{display:none}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#"><i><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="1.6"><path d="M2 8 8 3l6 5M4 7v6h8V7"/></svg></i>ПРОСТОР</a>
+    <nav><a href="#about">О компании</a><a href="#projects">Посёлки</a><a href="#houses">Дома</a><a href="#infra">Инфраструктура</a><a href="#buy">Покупка</a><a href="#contacts">Контакты</a></nav>
+    <span class="tel">8 800 000-00-00</span>
+    <a class="btn" href="#contacts">Связаться</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="mono">Девелопер с 1999 года · 6 регионов</span>
+        <h1>Посёлки городского типа <span>под ключ</span></h1>
+        <p class="lead">Проектируем и строим посёлки целиком: мастер-план, инженерные сети, школы, детские сады, парки и жилые дома. Одна компания отвечает за всё — от покупки земли до управления посёлком.</p>
+        <div class="cta"><a class="btn" href="#projects">Посмотреть посёлки</a><a class="btn line" href="#contacts">Записаться на экскурсию</a></div>
+      </div>
+      <figure class="plan" aria-label="Генеральный план посёлка «Простор Сити»">
+        <svg id="plan" viewBox="0 0 700 500" preserveAspectRatio="xMidYMid slice"></svg>
+        <span class="mono cap">Генплан · «Простор Сити» · 420 га</span>
+        <div class="legend"><span><b style="background:#121614"></b>Частные дома</span><span><b style="background:#1d4d3c"></b>Социальные объекты</span><span><b style="background:#a8661c"></b>Очередь 3 · 2027</span><span><b style="background:#b9cfd8"></b>Водоём</span></div>
+      </figure>
+    </div>
+    <div class="figs">
+      <div class="fig"><b>2,1<small>млн м²</small></b><span>введено в эксплуатацию</span></div>
+      <div class="fig"><b>14</b><span>посёлков в 6 регионах</span></div>
+      <div class="fig"><b>9 800</b><span>семей получили ключи</span></div>
+      <div class="fig"><b>26</b><span>школ, садов и поликлиник</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">О компании</span><h2>Строим среду, а не отдельные дома</h2></div></div>
+    <div class="about">
+      <div class="txt">
+        <p>«Простор» — вертикально интегрированный девелопер. В группу входят проектное бюро, генподрядчик, завод домокомплектов и управляющая компания.</p>
+        <p>Мы начинаем с инфраструктуры: дороги, газ, вода, электричество и оптоволокно появляются до первых домов. Школы и детские сады сдаются до заселения первой очереди — это закреплено в договоре с покупателем.</p>
+        <p>За 25 лет компания не сорвала ни одного срока сдачи объектов.</p>
+      </div>
+      <dl>
+        <div><dt>Год основания</dt><dd>1999</dd></div>
+        <div><dt>Сотрудников</dt><dd>3 400</dd></div>
+        <div><dt>Посёлков в работе</dt><dd>5</dd></div>
+        <div><dt>Земельный банк</dt><dd>1 860 га</dd></div>
+        <div><dt>Собственное производство</dt><dd>2 завода</dd></div>
+        <div><dt>Банков-партнёров по ипотеке</dt><dd>12</dd></div>
+        <div><dt>Просрочек сдачи</dt><dd>0</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">Портфель</span><h2>Посёлки компании</h2></div><p>Шесть ключевых проектов. В строящихся посёлках можно выбрать дом на любом этапе.</p></div>
+    <div class="filters" role="tablist">
+      <button class="on" data-f="all">Все</button><button data-f="b">Строятся</button><button data-f="s">Старт продаж</button><button data-f="d">Сданы</button>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Посёлок</th><th>Статус</th><th>Площадь</th><th>Домов</th><th>Жителей</th><th>Срок</th><th></th></tr></thead>
+      <tbody id="ptb"></tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="houses">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">Проекты домов</span><h2>40+ проектов, три базовые линейки</h2></div><p>Каждый проект можно посмотреть с разных сторон. Планировку адаптируем под семью без доплаты за проектирование.</p></div>
+    <div class="houses" id="houses-grid"></div>
+  </div>
+</section>
+
+<section id="infra" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">Инфраструктура · «Простор Сити»</span><h2>Всё необходимое — в пешей доступности</h2></div><p>Социальные объекты строятся за счёт компании и передаются муниципалитету.</p></div>
+    <div class="infra">
+      <div class="inf"><span class="mono">Образование</span><b>1 100</b><p>мест в школе с бассейном и технопарком</p></div>
+      <div class="inf"><span class="mono">Дошкольное</span><b>2 × 280</b><p>мест в двух детских садах</p></div>
+      <div class="inf"><span class="mono">Медицина</span><b>400</b><p>посещений в смену в поликлинике</p></div>
+      <div class="inf"><span class="mono">Торговля</span><b>24 000 м²</b><p>торговый центр и рынок фермерских продуктов</p></div>
+      <div class="inf"><span class="mono">Спорт</span><b>6 га</b><p>стадион, ФОК и велодорожки 18 км</p></div>
+      <div class="inf"><span class="mono">Природа</span><b>3 км</b><p>набережная вокруг озера площадью 4,2 га</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">Как мы строим</span><h2>Пять этапов одного посёлка</h2></div><p>Типичный срок от покупки земли до заселения первой очереди — 3 года.</p></div>
+    <div class="steps">
+      <div class="step"><h3>Земля и мастер-план</h3><p>Выбор участка, градостроительная документация, проект улиц и общественных пространств.</p><em>6–9 месяцев</em></div>
+      <div class="step"><h3>Инженерные сети</h3><p>Газ, водоснабжение, канализация, электричество и оптоволокно до каждого участка.</p><em>8–12 месяцев</em></div>
+      <div class="step"><h3>Социальные объекты</h3><p>Школа, детские сады, поликлиника — строятся параллельно с сетями.</p><em>12–18 месяцев</em></div>
+      <div class="step"><h3>Дома</h3><p>Домокомплекты с собственного завода, технический надзор на каждом этапе.</p><em>4–6 месяцев на дом</em></div>
+      <div class="step"><h3>Управление</h3><p>Управляющая компания: уборка, охрана, озеленение, сервис для жителей.</p><em>постоянно</em></div>
+    </div>
+  </div>
+</section>
+
+<section id="buy" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="head"><div class="t"><span class="mono">Покупка</span><h2>Гарантии и ипотека</h2></div></div>
+    <div class="two">
+      <div class="gar">
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg><div><h3>Договор по 214-ФЗ</h3><p>Покупка по договору участия в долевом строительстве с государственной регистрацией.</p></div></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><h3>Эскроу-счета</h3><p>Деньги хранятся в банке и поступают застройщику только после ввода дома в эксплуатацию.</p></div></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M10 20v-6h4v6"/></svg><div><h3>Гарантия 10 лет</h3><p>На конструктив дома и 5 лет на инженерные системы.</p></div></div>
+        <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><div><h3>Фиксированная цена</h3><p>Стоимость не меняется после подписания договора.</p></div></div>
+      </div>
+      <div class="calc" id="calc">
+        <h3>Расчёт ипотеки</h3>
+        <label for="cPrice"><span class="row">Стоимость дома <b id="vPrice"></b></span><input id="cPrice" type="range" min="8" max="40" step=".1" value="17.4"></label>
+        <label for="cDown"><span class="row">Первоначальный взнос <b id="vDown"></b></span><input id="cDown" type="range" min="20" max="80" step="1" value="30"></label>
+        <label for="cTerm"><span class="row">Срок <b id="vTerm"></b></span><input id="cTerm" type="range" min="5" max="30" step="1" value="20"></label>
+        <label for="cRate"><span class="row">Ставка <b id="vRate"></b></span><input id="cRate" type="range" min="6" max="22" step=".1" value="12.5"></label>
+        <div class="res"><div>Ежемесячный платёж<b id="rPay"></b></div><div>Сумма кредита<b id="rLoan"></b></div></div>
+        <small>Расчёт предварительный и не является офертой. Точные условия — у менеджера и в банке-партнёре.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap contact">
+    <div>
+      <span class="mono">Контакты</span>
+      <h2 style="margin-top:16px">Приезжайте в офис продаж или на экскурсию</h2>
+      <div class="cl">
+        <div><span>Телефон</span><b>8 800 000-00-00</b></div>
+        <div><span>Почта</span><b>sales@prostor.example</b></div>
+        <div><span>Офис</span><b>ул. Примерная, 1</b></div>
+        <div><span>Часы работы</span><b>ежедневно 9:00–21:00</b></div>
+      </div>
+    </div>
+    <form id="form" onsubmit="event.preventDefault();this.classList.add('sent')">
+      <h3>Оставить заявку</h3>
+      <label for="fName">Имя<input id="fName" required autocomplete="name"></label>
+      <label for="fTel">Телефон<input id="fTel" required type="tel" autocomplete="tel" placeholder="+7"></label>
+      <label class="full" for="fVil">Посёлок<select id="fVil"><option>Простор Сити</option><option>Северный Берег</option><option>Новые Холмы</option><option>Лесная Гавань</option><option>Помогите выбрать</option></select></label>
+      <label class="full" for="fMsg">Комментарий<textarea id="fMsg" rows="3"></textarea></label>
+      <label class="agree" for="fOk"><input id="fOk" type="checkbox" required><span>Согласен на обработку персональных данных</span></label>
+      <div class="full"><button class="btn" type="submit">Отправить заявку</button></div>
+      <div class="ok">Спасибо, заявка принята. Менеджер свяжется с вами в течение 15 минут. <br><small>(Демо: данные никуда не отправляются.)</small></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><b>ПРОСТОР</b>Девелопер посёлков городского типа.<br>Концепт сайта, все данные демонстрационные.</div>
+      <div><b>Компания</b><a href="#about">О компании</a><a href="#process">Как мы строим</a><a href="#buy">Гарантии</a></div>
+      <div><b>Проекты</b><a href="#projects">Посёлки</a><a href="#houses">Дома</a><a href="#infra">Инфраструктура</a></div>
+      <div><b>Связь</b>8 800 000-00-00<br>sales@prostor.example</div>
+    </div>
+    <div class="legal"><span>© 1999–2026 ООО «Простор». ИНН 0000000000</span><span>Проектные декларации · Политика конфиденциальности</span></div>
+  </div>
+</footer>
+
+<script>
+const R=(s=>()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296})(7);
+
+/* ---------- генплан ---------- */
+(function(){
+  const W=700,H=500,L={cx:250,cy:330,rx:95,ry:55};
+  const inLake=(x,y,m=0)=>((x-L.cx)/(L.rx+m))**2+((y-L.cy)/(L.ry+m))**2<1;
+  const inC=(x,y)=>x>450&&x<660&&y>250&&y<470;     // центр
+  const inN=(x,y)=>x<150&&y>60&&y<260;               // очередь 3
+  let s='<g stroke="#c4c8c4" stroke-width="1">';
+  for(let y=40;y<H;y+=46) s+=`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke-width="5" stroke="#fff"/>`;
+  for(let x=20;x<W;x+=126) s+=`<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke-width="6" stroke="#fff"/>`;
+  s+='</g>';
+  for(let y=40;y<H-20;y+=46) for(let x=26;x<W-10;x+=13){
+    if(((x-20)%126)<10) continue;
+    for(const dy of[5,23]){ const yy=y+dy;
+      if(inLake(x+5,yy+8,14)||inC(x,yy)) continue;
+      const n=inN(x,yy);
+      s+=`<rect x="${x}" y="${yy}" width="11" height="16" fill="none" stroke="${n?'#a8661c':'#c4c8c4'}" stroke-width=".7"/>`;
+      if(!n||R()<.35) s+=`<rect x="${x+2.5}" y="${yy+(dy===5?2:8)}" width="6" height="6" fill="${n?'#a8661c':'#121614'}"/>`;
+    }
+  }
+  s+=`<ellipse cx="${L.cx}" cy="${L.cy}" rx="${L.rx+10}" ry="${L.ry+10}" fill="none" stroke="#121614" stroke-width=".8" stroke-dasharray="3 3"/>`;
+  s+=`<ellipse cx="${L.cx}" cy="${L.cy}" rx="${L.rx}" ry="${L.ry}" fill="#b9cfd8"/>`;
+  s+=`<rect x="450" y="250" width="210" height="220" fill="#f4f5f3" stroke="#121614" stroke-width=".8"/>`;
+  [[465,265,60,26],[535,265,60,26],[465,300,60,26],[535,300,60,26],[605,265,42,70],[465,345,75,40],[555,350,92,52],[465,400,60,55]].forEach(([x,y,w,h],i)=>{
+    s+=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${i>3?'#1d4d3c':'#fff'}" stroke="#1d4d3c" stroke-width="1.2"/>`;});
+  s+=`<rect x="555" y="350" width="92" height="52" rx="26" fill="none" stroke="#fff" stroke-width="1"/>`;
+  const lab=(x,y,t)=>`<text x="${x}" y="${y}" font-family="IBM Plex Mono,monospace" font-size="10" fill="#121614">${t}</text>`;
+  s+=lab(L.cx-22,L.cy+3,'ОЗЕРО')+lab(470,488,'ЦЕНТР · ШКОЛА · ТЦ')+lab(24,56,'ОЧЕРЕДЬ 3');
+  s+=`<g transform="translate(655,40)" font-family="IBM Plex Mono,monospace" font-size="9" fill="#121614"><circle r="12" fill="#fff" stroke="#121614" stroke-width=".8"/><path d="M0-9 3 0h-6z" fill="#121614"/><text y="-15" text-anchor="middle">С</text></g>`;
+  s+=`<g transform="translate(560,40)" font-family="IBM Plex Mono,monospace" font-size="9" fill="#121614"><rect width="60" height="4" fill="#121614"/><rect x="30" width="30" height="4" fill="#fff" stroke="#121614" stroke-width=".6"/><text y="16">0</text><text x="48" y="16">500 м</text></g>`;
+  document.getElementById('plan').innerHTML=s;
+})();
+
+/* ---------- посёлки ---------- */
+(function(){
+  const P=[
+    ['Простор Сити','Флагман · 18 км от центра','s','Старт продаж 3 очереди','420 га','2 400','38 000','2028',62],
+    ['Северный Берег','На берегу залива · 24 км','b','Строится','260 га','2 100','14 000','2027',48],
+    ['Новые Холмы','Холмистый рельеф · 21 км','b','Строится','98 га','640','2 300','2026',81],
+    ['Лесная Гавань','Сосновый лес · 15 км','d','Сдан','140 га','860','3 100','2023',100],
+    ['Простор Парк','Первый посёлок · 12 км','d','Сдан','186 га','1 240','4 600','2021',100],
+    ['Зелёная Долина','Речная долина · 30 км','d','Сдан','80 га','520','1 900','2019',100],
+  ];
+  document.getElementById('ptb').innerHTML=P.map(p=>`<tr data-s="${p[2]}"><td><b>${p[0]}</b><span>${p[1]}</span></td><td><span class="st ${p[2]==='d'?'':p[2]}">${p[3]}</span>${p[8]<100?`<div class="prog" title="Готовность ${p[8]}%"><i style="width:${p[8]}%"></i></div>`:''}</td><td>${p[4]}</td><td>${p[5]}</td><td>${p[6]}</td><td>${p[7]}</td><td><a class="arr" href="#contacts" aria-label="Подробнее о посёлке ${p[0]}">→</a></td></tr>`).join('');
+  document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.filters button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('#ptb tr').forEach(tr=>tr.hidden=b.dataset.f!=='all'&&tr.dataset.s!==b.dataset.f);
+  });
+})();
+
+/* ---------- дома: чертёжные виды ---------- */
+(function(){
+  const K='#121614',A='#1d4d3c',G='#5b625e';
+  const st=`fill="none" stroke="${K}" stroke-width="1.4"`;
+  const win=(x,y,w,h,m=0)=>{let s=`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#d9e3e0" stroke="${K}" stroke-width="1"/>`;for(let i=1;i<=m;i++)s+=`<line x1="${x+w*i/(m+1)}" y1="${y}" x2="${x+w*i/(m+1)}" y2="${y+h}" stroke="${K}" stroke-width=".8"/>`;return s;};
+  const hatch=(x,y,w,h,step=6)=>{let s='';for(let i=x+step;i<x+w;i+=step)s+=`<line x1="${i}" y1="${y}" x2="${i}" y2="${y+h}" stroke="${G}" stroke-width=".4"/>`;return s;};
+  const ground=`<line x1="20" y1="250" x2="380" y2="250" stroke="${K}" stroke-width="1.6"/>`+Array.from({length:24},(_,i)=>`<line x1="${24+i*15}" y1="250" x2="${18+i*15}" y2="257" stroke="${G}" stroke-width=".6"/>`).join('');
+  const dim=(x1,x2,y,t)=>`<g stroke="${G}" stroke-width=".6"><line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}"/><line x1="${x1}" y1="${y-4}" x2="${x1}" y2="${y+4}"/><line x1="${x2}" y1="${y-4}" x2="${x2}" y2="${y+4}"/></g><text x="${(x1+x2)/2}" y="${y-5}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="${G}">${t}</text>`;
+  const roofTop=(x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" ${st} fill="#fff"/>`;
+  const V={
+    modern:{
+      'Фасад':ground+`<rect x="60" y="170" width="280" height="80" ${st} fill="#fff"/>`+win(80,185,150,60,4)+win(260,190,50,45,1)+`<rect x="40" y="105" width="200" height="65" ${st} fill="#ece7df"/>`+hatch(40,105,200,65)+win(60,122,160,30,3)+`<rect x="34" y="99" width="212" height="7" fill="${K}"/><rect x="54" y="164" width="292" height="7" fill="${K}"/><line x1="245" y1="150" x2="340" y2="150" stroke="${A}" stroke-width="1.2"/>`+dim(60,340,280,'16,4 м')+dim(40,240,90,'10,0 м'),
+      'Сбоку':ground+`<rect x="110" y="170" width="200" height="80" ${st} fill="#fff"/>`+win(140,190,24,55)+win(200,190,24,55)+`<rect x="90" y="105" width="190" height="65" ${st} fill="#ece7df"/>`+hatch(90,105,190,65)+win(130,120,60,40,1)+`<rect x="84" y="99" width="202" height="7" fill="${K}"/><rect x="104" y="164" width="212" height="7" fill="${K}"/>`+dim(110,310,280,'11,6 м'),
+      'Сверху':`<rect x="60" y="60" width="280" height="180" ${st} fill="#fff"/>`+roofTop(40,50,200,170)+hatch(40,50,200,170,10)+`<rect x="70" y="250" width="150" height="40" fill="#b9cfd8" stroke="${K}"/><rect x="230" y="250" width="110" height="40" ${st}/>`+hatch(230,250,110,40,5)+`<rect x="55" y="80" width="16" height="16" fill="${K}"/>`+`<text x="200" y="22" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="${G}">ПЛАН КРОВЛИ · 1:200</text>`
+    },
+    scandi:{
+      'Фасад':ground+`<path d="M110 250V160L200 75L290 160V250Z" ${st} fill="#3a3633"/>`+`<path d="M130 245V165L200 100L270 165V245Z" fill="#d9e3e0" stroke="${K}"/>`+[165,200,235].map(x=>`<line x1="${x}" y1="${x===200?100:132}" x2="${x}" y2="245" stroke="${K}" stroke-width="1"/>`).join('')+`<line x1="130" y1="185" x2="270" y2="185" stroke="${K}" stroke-width="1.6"/><path d="M100 168 200 72 300 168" fill="none" stroke="${K}" stroke-width="4"/>`+`<path d="M290 250V200L325 170L360 200V250Z" ${st} fill="#e7dccb"/>`+dim(110,290,280,'9,0 м')+dim(290,360,280,'6,4')+`<text x="380" y="170" font-family="IBM Plex Mono,monospace" font-size="9" fill="${G}" text-anchor="end">+8,3</text>`,
+      'Сбоку':ground+`<rect x="40" y="160" width="260" height="90" ${st} fill="#3a3633"/>`+`<path d="M32 162 300 162 300 162" stroke="${K}"/><path d="M30 165 L45 75 L300 75 L312 165Z" fill="#2b2e31" stroke="${K}"/>`+[70,130,190].map(x=>win(x,185,28,40)).join('')+win(245,180,40,65,1)+`<rect x="300" y="190" width="70" height="60" ${st} fill="#e7dccb"/><path d="M296 192 333 160 374 192" fill="none" stroke="${K}" stroke-width="3"/>`+dim(40,300,280,'13,0 м'),
+      'Сверху':`<rect x="110" y="40" width="180" height="230" ${st} fill="#fff"/><line x1="200" y1="40" x2="200" y2="270" stroke="${K}" stroke-width="1.6"/>`+hatch(110,40,90,230,8)+`<rect x="290" y="120" width="70" height="100" ${st} fill="#fff"/><line x1="290" y1="170" x2="360" y2="170" stroke="${K}" stroke-width="1.4"/><rect x="100" y="270" width="200" height="40" ${st}/>`+hatch(100,270,200,40,5)+`<text x="200" y="22" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="${G}">ПЛАН КРОВЛИ · 1:200</text>`
+    },
+    chalet:{
+      'Фасад':ground+`<rect x="80" y="185" width="240" height="65" ${st} fill="#cfc8bc"/>`+Array.from({length:6},(_,r)=>Array.from({length:8},(_,c)=>`<rect x="${82+c*30+(r%2)*12}" y="${187+r*10.5}" width="26" height="8" fill="none" stroke="${G}" stroke-width=".4"/>`).join('')).join('')+[100,175,250].map(x=>win(x,200,45,45,1)).join('')+`<path d="M80 185V145L200 95L320 145V185Z" ${st} fill="#c79f74"/>`+hatch(80,95,240,90,7).replace(/stroke="#5b625e"/g,'stroke="#8a6a4a"')+`<path d="M150 180V150L200 128L250 150V180Z" fill="#d9e3e0" stroke="${K}"/><path d="M40 160 200 88 360 160" fill="none" stroke="${K}" stroke-width="5"/><rect x="100" y="180" width="200" height="6" fill="#6b4428"/>`+Array.from({length:21},(_,i)=>`<line x1="${100+i*10}" y1="165" x2="${100+i*10}" y2="180" stroke="#6b4428" stroke-width="1.4"/>`).join('')+`<line x1="100" y1="165" x2="300" y2="165" stroke="#6b4428" stroke-width="2"/>`+dim(80,320,280,'13,4 м'),
+      'Сбоку':ground+`<rect x="100" y="185" width="200" height="65" ${st} fill="#cfc8bc"/>`+win(130,200,40,40,1)+win(230,200,40,40,1)+`<rect x="100" y="145" width="200" height="40" ${st} fill="#c79f74"/>`+win(140,155,30,24)+win(230,155,30,24)+`<path d="M60 150 L80 105 L320 105 L340 150Z" fill="#2b2e31" stroke="${K}"/><rect x="290" y="70" width="22" height="115" ${st} fill="#cfc8bc"/>`+dim(100,300,280,'10,4 м'),
+      'Сверху':`<rect x="50" y="50" width="300" height="220" ${st} fill="#fff"/><line x1="200" y1="50" x2="200" y2="270" stroke="${K}" stroke-width="1.6"/>`+hatch(50,50,150,220,8)+`<rect x="290" y="80" width="26" height="26" fill="${K}"/><rect x="110" y="270" width="180" height="30" ${st}/>`+hatch(110,270,180,30,5)+`<text x="200" y="30" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="${G}">ПЛАН КРОВЛИ · 1:200</text>`
+    }
+  };
+  const H=[
+    ['modern','Модерн','«Горизонт»','248 м²','2','5','15 сот.','газобетон, термодерево','от 24,9 млн ₽'],
+    ['scandi','Сканди','«Фьорд»','186 м²','2','4','12 сот.','клеёный брус, фальц','от 17,4 млн ₽'],
+    ['chalet','Шале','«Альпина»','214 м²','2','4','14 сот.','камень, брус','от 19,8 млн ₽'],
+  ];
+  document.getElementById('houses-grid').innerHTML=H.map(h=>`<article class="house" data-k="${h[0]}">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div><span class="mono">${h[1]}</span><h3>${h[2]}</h3></div>
+    <div class="views">${Object.keys(V[h[0]]).map((v,i)=>`<button class="${i?'':'on'}" data-v="${v}">${v}</button>`).join('')}</div></div>
+    <div class="draw"><svg viewBox="0 0 400 300" role="img" aria-label="Чертёж дома ${h[2]}">${V[h[0]]['Фасад']}</svg></div>
+    <div class="spec"><div>Площадь</div><div>${h[3]}</div><div>Этажей</div><div>${h[4]}</div><div>Спален</div><div>${h[5]}</div><div>Участок</div><div>${h[6]}</div><div>Материалы</div><div>${h[7]}</div></div>
+    <div class="price"><b>${h[8]}</b><a class="btn line" href="#contacts" style="height:40px;padding:0 16px;font-size:14px">Планировки</a></div>
+  </article>`).join('');
+  document.querySelectorAll('.house').forEach(card=>card.querySelectorAll('.views button').forEach(b=>b.onclick=()=>{
+    card.querySelectorAll('.views button').forEach(x=>x.classList.toggle('on',x===b));
+    card.querySelector('svg').innerHTML=V[card.dataset.k][b.dataset.v];
+  }));
+})();
+
+/* ---------- ипотека ---------- */
+(function(){
+  const $=id=>document.getElementById(id), f=n=>n.toLocaleString('ru-RU',{maximumFractionDigits:0});
+  function calc(){
+    const price=+$('cPrice').value*1e6, down=+$('cDown').value, term=+$('cTerm').value, rate=+$('cRate').value;
+    const loan=price*(1-down/100), r=rate/1200, n=term*12, pay=loan*r/(1-Math.pow(1+r,-n));
+    $('vPrice').textContent=(+$('cPrice').value).toLocaleString('ru-RU',{minimumFractionDigits:1})+' млн ₽';
+    $('vDown').textContent=down+'% · '+f(price*down/100)+' ₽';
+    const t10=term%10,t100=term%100; $('vTerm').textContent=term+(t10===1&&t100!==11?' год':t10>=2&&t10<=4&&(t100<12||t100>14)?' года':' лет'); $('vRate').textContent=rate.toLocaleString('ru-RU',{minimumFractionDigits:1})+'%';
+    $('rPay').textContent=f(pay)+' ₽'; $('rLoan').textContent=f(loan)+' ₽';
+  }
+  ['cPrice','cDown','cTerm','cRate'].forEach(id=>$(id).addEventListener('input',calc)); calc();
+})();
+</script>
+</body>
+</html>
