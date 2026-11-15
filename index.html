@@ -75,7 +75,8 @@ nav a:hover{color:var(--ink)}
 .about dt{color:var(--ink2)}.about dd{font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
 
 /* projects table */
-.filters{display:flex;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%;margin-bottom:24px}
+.filters{display:flex;gap:0;border:1px solid var(--line2);width:max-content;max-width:100%;overflow-x:auto;margin-bottom:24px}
+.filters button{white-space:nowrap}
 .filters button{border:0;background:none;font:500 14px var(--sans);padding:10px 18px;color:var(--ink2);cursor:pointer}
 .filters button+button{border-left:1px solid var(--line2)}
 .filters button.on{background:var(--ink);color:#fff}
